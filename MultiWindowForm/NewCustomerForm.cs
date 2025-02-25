@@ -15,12 +15,14 @@ namespace MultiWindowForm
         private MainForm _mainForm;
         private int CustomerCount = 0;
         private bool IsEditing;
+        private int CurrentSelectionId;
         public NewCustomerForm(MainForm form)
         {
             InitializeComponent();
             _mainForm = form;
             CustomerCount++;
             IsEditing = false;
+            CurrentSelectionId = -1;
         }
 
         private void lblEmailHeading_Click(object sender, EventArgs e)
@@ -32,15 +34,11 @@ namespace MultiWindowForm
         {
             IsEditing = newState;
 
-            // tell the main form what customer looks like
-            _mainForm.EditCustomer(0, new Customer());
+            
         }
 
         private void CreateCustomer()
         {
-            // validation
-
-            // create a customer and load it with data from the form
             Customer customer = new Customer
             {
                 CustomerId = CustomerCount,
@@ -58,6 +56,18 @@ namespace MultiWindowForm
         private void EditCustomer()
         {
             MessageBox.Show("Form is being edited");
+           
+            // tell the main form what customer looks like
+            _mainForm.EditCustomer(CurrentSelectionId, new Customer
+            {
+                CustomerId = CurrentSelectionId,
+                Name = txtName.Text,
+                PhoneNumber = txtPhoneNumber.Text,
+                Email = txtEmail.Text,
+            });
+
+            CurrentSelectionId = -1;
+            ToggleEdit(false);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -94,6 +104,7 @@ namespace MultiWindowForm
 
         public void LoadCustomer(Customer customer)
         {
+            CurrentSelectionId = customer.CustomerId;
             txtName.Text= customer.Name;
             txtEmail.Text= customer.Email;
             txtPhoneNumber.Text= customer.PhoneNumber;

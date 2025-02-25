@@ -63,8 +63,10 @@
             dgvCustomers.MultiSelect = false;
             dgvCustomers.Name = "dgvCustomers";
             dgvCustomers.RowHeadersWidth = 82;
+            dgvCustomers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCustomers.Size = new Size(887, 426);
             dgvCustomers.TabIndex = 1;
+            dgvCustomers.CellContentClick += dgvCustomers_CellContentClick;
             // 
             // customerIdDataGridViewTextBoxColumn
             // 
@@ -110,7 +112,7 @@
             btnEdit.TabIndex = 2;
             btnEdit.Text = "Edit Customer";
             btnEdit.UseVisualStyleBackColor = true;
-            btnEdit.Click += this.btnEdit_Click;
+            btnEdit.Click += btnEdit_Click;
             // 
             // MainForm
             // 
