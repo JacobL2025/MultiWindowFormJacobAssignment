@@ -39,10 +39,22 @@ namespace MultiWindowForm
 
         private void CreateCustomer()
         {
-            if (CheckValidity())
+            if (CheckValidity(txtName))
             {
-                // show an error
-                // return and try again
+                MessageBox.Show("The Custoner Name is Empty");
+                return;
+            }
+
+            if(CheckValidity(txtEmail))
+            {
+                MessageBox.Show("The Customer Email Is Empty");
+                return;
+            }
+
+            if (CheckValidity(txtPhoneNumber))
+            {
+                MessageBox.Show("There is No Customer Phone Number");
+                return;
             }
             Customer customer = new Customer
             {
@@ -58,21 +70,37 @@ namespace MultiWindowForm
             CustomerCount++;
         }
 
-        private bool CheckValidity()
+        private bool CheckValidity(Control control)
         {
+            return control.Text == "";
             // some logic to validate the various inputs
 
             // set this to the validity of the form
-            bool somevalue = true;
-            return somevalue;
+            
         }
 
         private void EditCustomer()
         {
-            MessageBox.Show("Form is being edited");
-           
-            // tell the main form what customer looks like
-            _mainForm.EditCustomer(CurrentSelectionId, new Customer
+            if (CheckValidity(txtName))
+            {
+                MessageBox.Show("The Custoner Name is Empty");
+                return;
+            }
+
+            if (CheckValidity(txtEmail))
+            {
+                MessageBox.Show("The Customer Email Is Empty");
+                return;
+            }
+
+            if (CheckValidity(txtPhoneNumber))
+            {
+                MessageBox.Show("There is No Customer Phone Number");
+                return;
+            }
+
+                // tell the main form what customer looks like
+                _mainForm.EditCustomer(CurrentSelectionId, new Customer
             {
                 CustomerId = CurrentSelectionId,
                 Name = txtName.Text,
