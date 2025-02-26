@@ -39,6 +39,11 @@ namespace MultiWindowForm
 
         private void CreateCustomer()
         {
+            if (CheckValidity())
+            {
+                // show an error
+                // return and try again
+            }
             Customer customer = new Customer
             {
                 CustomerId = CustomerCount,
@@ -51,6 +56,15 @@ namespace MultiWindowForm
             // send that data to the AddCustomer function on the parent form
             _mainForm.AddCustomer(customer);
             CustomerCount++;
+        }
+
+        private bool CheckValidity()
+        {
+            // some logic to validate the various inputs
+
+            // set this to the validity of the form
+            bool somevalue = true;
+            return somevalue;
         }
 
         private void EditCustomer()
