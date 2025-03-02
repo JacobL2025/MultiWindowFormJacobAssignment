@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using System.Xml.Linq;
 
 namespace MultiWindowForm
 {
@@ -41,11 +43,11 @@ namespace MultiWindowForm
         {
             if (CheckValidity(txtName))
             {
-                MessageBox.Show("The Custoner Name is Empty");
+                MessageBox.Show("The Customer Name is Empty");
                 return;
             }
 
-            if(CheckValidity(txtEmail))
+            if (CheckValidity(txtEmail))
             {
                 MessageBox.Show("The Customer Email Is Empty");
                 return;
@@ -60,15 +62,42 @@ namespace MultiWindowForm
             {
                 CustomerId = CustomerCount,
                 Name = txtName.Text,
-                PhoneNumber = txtPhoneNumber.Text,
                 Email = txtEmail.Text,
+                PhoneNumber = txtPhoneNumber.Text,
             };
 
+            string name = txtName.Text; // info for the csv file to pull from i think
+            string email = txtEmail.Text; // ""
+            string phoneNumber = txtPhoneNumber.Text; // ""
 
-            // send that data to the AddCustomer function on the parent form
-            _mainForm.AddCustomer(customer);
-            CustomerCount++;
-        }
+
+
+            string filepath = Path.Combine(Directory.GetCurrentDirectory(), "MyCustomers.csv"); // need to do more research on this
+
+            try
+            {
+                bool fileExists = File.Exists(filepath); // this is creating a file if it doesn't exist, which i think it already exists, because i have ran this dang thing 30 times
+
+                using (StreamWriter writer = new StreamWriter(filepath, true))
+                {
+                    if (!fileExists) // if the file doesnt exist, this will trigger
+                    {
+                        writer.WriteLine("Name,Email,PhoneNumber"); // and then this will write the headers
+                    }
+
+
+                    writer.WriteLine($"{customer.Name},{customer.Email},{customer.PhoneNumber}"); // this should be where the data is pulled from
+                }
+
+
+                _mainForm.AddCustomer(customer);
+                CustomerCount++;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sorry, This File Couldn't Save. Whoops!"); // even though the info isn't saving right now, this doesn't pop up. I guess the process isn't breaking, but it isn't working properly either.
+            }
+            }
 
         private bool CheckValidity(Control control)
         {
